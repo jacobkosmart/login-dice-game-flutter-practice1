@@ -119,4 +119,4 @@ void showToast(String message) {
 
 - Adding interactivity to your Flutter app - [https://flutter.dev/docs/development/ui/interactive](https://flutter.dev/docs/development/ui/interactive)
 
-- 코딩 셰프 - [https://www.youtube.com/watch?v=StvbitxUKSo&list=PLQt_pzi-LLfoOpp3b-pnnLXgYpiFEftLB](hhttps://www.youtube.com/watch?v=StvbitxUKSo&list=PLQt_pzi-LLfoOpp3b-pnnLXgYpiFEftLB){:target="\_blank"}
+- 코딩 셰프 - [https://www.youtube.com/watch?v=StvbitxUKSo&list=PLQt_pzi-LLfoOpp3b-pnnLXgYpiFEftLB](hhttps://www.youtube.com/watch?v=StvbitxUKSo&list=PLQt_pzi-LLfoOpp3b-pnnLXgYpiFEftLB)
