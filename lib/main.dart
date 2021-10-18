@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'dice.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,109 +9,198 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
+      title: 'Dice game',
+      home: LogIn(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+class LogIn extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<LogIn> createState() => _LogInState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class _LogInState extends State<LogIn> {
+  // TextEditingController instance 생성
+  // textfiled 의 값을 읽어야 할 때, TextEditingController 를 사용합니다. textField 와 연결 시켜야 한다는 의미 입니다.
+  TextEditingController controller1 = TextEditingController();
+  TextEditingController controller2 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+        title: Text('Log in'),
+        backgroundColor: Colors.deepPurpleAccent,
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          onPressed: () {},
         ),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.search),
+          ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // snackBar 에 context 전달을 위해서 Builder 생성
+      body: Builder(builder: (context) {
+        // SingleChildScrollView : body 영역에 나중에 keyboard 가 올라와서 스크린 영역을 침범하면 그만큼 안짤리게 body screen 을 올려줌
+        // GestureDetector : onTap 의 함수로써 unfocus 하면 키보드가 사라지게 하는것 (화면 밖을 누르면 keyboard 가 내려가는것)
+        return GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 50),
+                ),
+                Center(
+                  //
+                  child: SvgPicture.asset(
+                    'images/logo1.svg',
+                    width: 150.0,
+                    height: 150.0,
+                  ),
+                ),
+
+                // Form Widget
+                Form(
+                  child: Theme(
+                    data: ThemeData(
+                      // textField 를 클릭했을때, 강조되는 색상 지정
+                      primaryColor: Colors.deepPurpleAccent,
+                      // textField 위에 사용자에게 정보를 주는 lable design
+                      inputDecorationTheme: InputDecorationTheme(
+                        labelStyle: TextStyle(
+                          color: Colors.deepPurpleAccent,
+                          fontSize: 15.0,
+                        ),
+                      ),
+                    ),
+                    // textfiled 를 child 에 나열
+                    child: Container(
+                      padding: const EdgeInsets.all(40.0),
+                      child: Column(
+                        children: <Widget>[
+                          TextField(
+                            // TextEditingController 에 입력값 연결
+                            controller: controller1,
+                            // app 이 실행되자 마자 texfiled 에 자동으로 focus 값을 줘서 id 에 바로 입력 할수 있게 함
+                            autofocus: true,
+                            decoration:
+                                InputDecoration(labelText: 'Enter "dice"'),
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+                          TextField(
+                            // TextEditingController 에 입력값 연결
+                            controller: controller2,
+                            decoration:
+                                InputDecoration(labelText: 'Enter "Password"'),
+                            keyboardType: TextInputType.text,
+                            // obscureText : password 시 글자가 안보이게 함
+                            obscureText: true,
+                          ),
+                          SizedBox(
+                            height: 40.0,
+                          ),
+                          ButtonTheme(
+                            minWidth: 100.0,
+                            height: 50.0,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.deepPurpleAccent,
+                              ),
+                              onPressed: () {
+                                if (controller1.text == 'dice' &&
+                                    controller2.text == '1234') {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) => Dice(),
+                                    ),
+                                  );
+                                  // null safety 때문에 아닌 경우에도 경우를 체크 해야됨
+                                } else if (controller1.text != 'dice' &&
+                                    controller2.text == '1234') {
+                                  // ID 가 틀렸을 경우
+                                  showSnackBar3(context);
+                                } else if (controller1.text == 'dice' &&
+                                    controller2.text != '1234') {
+                                  // Password 가 틀렸을 경우
+                                  showSnackBar2(context);
+                                } else {
+                                  // snack bar 불어 오기
+                                  showSnackBar1(context);
+                                }
+                              },
+                              child: Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.white,
+                                size: 20.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }),
     );
   }
+}
+
+// show snakBar 함수 : builder 의 context 값이 전달 되어야 함
+void showSnackBar1(BuildContext context) {
+  // 첫번째 snackBar
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        '로그인 정보를 다시 확인하세요',
+        textAlign: TextAlign.center,
+      ),
+      duration: Duration(seconds: 2),
+      backgroundColor: Colors.blue,
+    ),
+  );
+}
+
+void showSnackBar2(BuildContext context) {
+  // 첫번째 snackBar
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        '비밀번호가 일치하지 않습니다',
+        textAlign: TextAlign.center,
+      ),
+      duration: Duration(seconds: 2),
+      backgroundColor: Colors.blue,
+    ),
+  );
+}
+
+void showSnackBar3(BuildContext context) {
+  // 첫번째 snackBar
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        'dice 의 철자를 확인하세요',
+        textAlign: TextAlign.center,
+      ),
+      duration: Duration(seconds: 2),
+      backgroundColor: Colors.blue,
+    ),
+  );
 }
